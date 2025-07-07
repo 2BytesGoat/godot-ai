@@ -1,0 +1,183 @@
+[gd_scene load_steps=14 format=3 uid="uid://c17a72sjkkc8i"]
+
+[ext_resource type="Script" uid="uid://dutykws7pje2q" path="res://src/player/unit.gd" id="1_rkbax"]
+[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/0x72_DungeonTilesetII_v1.7.png" id="2_g1dw6"]
+[ext_resource type="PackedScene" uid="uid://bcoi8gp3l32so" path="res://src/items/weapon.tscn" id="3_wtyfs"]
+[ext_resource type="Script" uid="uid://c4i1eau3vyh77" path="res://src/components/state_machine.gd" id="4_mh547"]
+[ext_resource type="Script" uid="uid://dbuhpejd75ot6" path="res://src/player/state_move.gd" id="5_ct56y"]
+[ext_resource type="Script" uid="uid://mbmw6mre32o2" path="res://src/player/state_idle.gd" id="5_nh3ln"]
+[ext_resource type="Script" uid="uid://dwibekwtbw3b" path="res://src/player/state_attack.gd" id="7_fawgm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_onrkg"]
+atlas = ExtResource("2_g1dw6")
+region = Rect2(128, 288, 144, 32)
+
+[sub_resource type="Animation" id="Animation_w47c3"]
+resource_name = "Attack"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Weapon")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_attack"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine/Attack")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_attack_ended"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ct56y"]
+resource_name = "Idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Weapon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(6, -12)]
+}
+
+[sub_resource type="Animation" id="Animation_fawgm"]
+resource_name = "Move"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Weapon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(6, -14), Vector2(6, -17), Vector2(6, -14), Vector2(6, -12)]
+}
+
+[sub_resource type="Animation" id="Animation_nh3ln"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Weapon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(7, -12)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fawgm"]
+_data = {
+&"Attack": SubResource("Animation_w47c3"),
+&"Idle": SubResource("Animation_ct56y"),
+&"Move": SubResource("Animation_fawgm"),
+&"RESET": SubResource("Animation_nh3ln")
+}
+
+[node name="Unit" type="Node2D"]
+script = ExtResource("1_rkbax")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = SubResource("AtlasTexture_onrkg")
+hframes = 9
+
+[node name="Weapon" parent="." instance=ExtResource("3_wtyfs")]
+position = Vector2(7, -12)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="ControllerContainer" type="Node" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("4_mh547")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("5_nh3ln")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("5_ct56y")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("7_fawgm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_fawgm")
+}

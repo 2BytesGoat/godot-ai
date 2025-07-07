@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbr17gqjplk0n"]
+
+[ext_resource type="PackedScene" uid="uid://c17a72sjkkc8i" path="res://src/player/unit.tscn" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://d3yi372mdb0sg" path="res://world_scenes.gd" id="1_fj7yv"]
+
+[sub_resource type="TileSet" id="TileSet_fj7yv"]
+
+[node name="World" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_fj7yv")
+
+[node name="WorldScenes" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
+script = ExtResource("1_fj7yv")
+tilemap = NodePath("../TileMapLayer")
+
+[node name="Player" parent="WorldScenes" instance=ExtResource("1_f3sb7")]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
