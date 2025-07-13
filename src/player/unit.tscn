@@ -18,7 +18,7 @@ length = 0.5
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Weapon")
+tracks/0/path = NodePath("SpritesContainer/Weapon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -46,7 +46,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/path = NodePath("SpritesContainer/Sprite2D:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -62,7 +62,7 @@ length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("SpritesContainer/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -74,7 +74,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:position")
+tracks/1/path = NodePath("SpritesContainer/Weapon:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -92,7 +92,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("SpritesContainer/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -104,7 +104,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:position")
+tracks/1/path = NodePath("SpritesContainer/Weapon:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -119,7 +119,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("SpritesContainer/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -131,7 +131,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:position")
+tracks/1/path = NodePath("SpritesContainer/Weapon:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -152,12 +152,16 @@ _data = {
 [node name="Unit" type="Node2D"]
 script = ExtResource("1_rkbax")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SpritesContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpritesContainer"]
 position = Vector2(0, -12)
 texture = SubResource("AtlasTexture_onrkg")
 hframes = 9
 
-[node name="Weapon" parent="." instance=ExtResource("3_wtyfs")]
+[node name="Weapon" parent="SpritesContainer" instance=ExtResource("3_wtyfs")]
+show_behind_parent = true
+z_index = 0
 position = Vector2(7, -12)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]

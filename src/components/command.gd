@@ -1,5 +1,5 @@
 class_name Command
 
 
-func execute(unit: Unit, data: Object = null) -> void:
+func execute(_unit: Unit, _data: Object = null) -> void:
 	pass
