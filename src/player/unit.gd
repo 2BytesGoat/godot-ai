@@ -25,9 +25,8 @@ func set_controller(controller: ControllerUnit) -> void:
 	controller_container.add_child(controller)
 
 
-func move_to(new_position: Vector2) -> void:
-	update_facing_position(new_position)
-	state_machine.transition_to("Move", {"target_position": new_position})
+func move_to(navigation_path: Array) -> void:
+	state_machine.transition_to("Move", {"navigation_path": navigation_path})
 
 
 func attack_at(new_position: Vector2) -> void:

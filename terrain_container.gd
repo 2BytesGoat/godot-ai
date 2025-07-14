@@ -40,10 +40,7 @@ func cell_to_id(cell: Vector2i) -> int:
 
 
 func id_to_cell(id: int) -> Vector2i:
-	var terrain_rect = terrain_layer.get_used_rect().size
-	var y = int(id / terrain_rect.y)
-	var x = id % terrain_rect.y
-	return Vector2i(x, y)
+	return astar.get_point_position(id)
 
 
 func global_to_map(global_point: Vector2) -> Vector2:
