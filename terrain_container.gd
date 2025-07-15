@@ -16,6 +16,8 @@ func get_path_to_cell(from_cell: Vector2i, to_cell: Vector2i) -> Array:
 	var from_id = cell_to_id(from_cell)
 	var to_id = cell_to_id(to_cell)
 	var path = []
+	if not astar.has_point(to_id):
+		return path
 	for cell_id in astar.get_id_path(from_id, to_id):
 		path.append(id_to_cell(cell_id))
 	return path 

@@ -155,6 +155,7 @@ _data = {
 
 [node name="Unit" type="Node2D"]
 script = ExtResource("1_rkbax")
+debug = true
 
 [node name="SpritesContainer" type="Node2D" parent="."]
 
