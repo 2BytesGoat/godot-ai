@@ -2,6 +2,7 @@ extends Node2D
 class_name Unit
 
 @export var camera: Camera2D
+@export var move_speed: int = 150
 
 @onready var sprites_container: Node2D = $SpritesContainer
 @onready var remote_transform: RemoteTransform2D = $RemoteTransform2D

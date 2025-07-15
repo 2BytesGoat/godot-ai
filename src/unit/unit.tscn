@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://c17a72sjkkc8i"]
+[gd_scene load_steps=15 format=3 uid="uid://c17a72sjkkc8i"]
 
-[ext_resource type="Script" uid="uid://dutykws7pje2q" path="res://src/player/unit.gd" id="1_rkbax"]
+[ext_resource type="Script" uid="uid://dutykws7pje2q" path="res://src/unit/unit.gd" id="1_rkbax"]
 [ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/0x72_DungeonTilesetII_v1.7.png" id="2_g1dw6"]
 [ext_resource type="PackedScene" uid="uid://bcoi8gp3l32so" path="res://src/items/weapon.tscn" id="3_wtyfs"]
 [ext_resource type="Script" uid="uid://c4i1eau3vyh77" path="res://src/components/state_machine.gd" id="4_mh547"]
-[ext_resource type="Script" uid="uid://dbuhpejd75ot6" path="res://src/player/state_move.gd" id="5_ct56y"]
-[ext_resource type="Script" uid="uid://mbmw6mre32o2" path="res://src/player/state_idle.gd" id="5_nh3ln"]
-[ext_resource type="Script" uid="uid://dwibekwtbw3b" path="res://src/player/state_attack.gd" id="7_fawgm"]
+[ext_resource type="Script" uid="uid://dbuhpejd75ot6" path="res://src/unit/state_move.gd" id="5_ct56y"]
+[ext_resource type="Script" uid="uid://mbmw6mre32o2" path="res://src/unit/state_idle.gd" id="5_nh3ln"]
+[ext_resource type="Script" uid="uid://dwibekwtbw3b" path="res://src/unit/state_attack.gd" id="7_fawgm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_onrkg"]
 atlas = ExtResource("2_g1dw6")
@@ -55,6 +55,9 @@ tracks/2/keys = {
 "update": 1,
 "values": [0]
 }
+
+[sub_resource type="Animation" id="Animation_6qnuv"]
+resource_name = "DefaultAttack"
 
 [sub_resource type="Animation" id="Animation_ct56y"]
 resource_name = "Idle"
@@ -144,6 +147,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fawgm"]
 _data = {
 &"Attack": SubResource("Animation_w47c3"),
+&"DefaultAttack": SubResource("Animation_6qnuv"),
 &"Idle": SubResource("Animation_ct56y"),
 &"Move": SubResource("Animation_fawgm"),
 &"RESET": SubResource("Animation_nh3ln")

@@ -2,12 +2,14 @@ class_name TilemapContainer
 extends Node2D
 
 @onready var terrain_layer = $TerrainLayer
+@onready var obstacles_layer = $ObstaclesLayer
 
 var astar = AStar2D.new()
 
 
 func _ready() -> void:
-	_init_terrain_pathfinding()
+	_init_pathfinding_terrain()
+	_update_pathfinding_obstacles()
 
 
 func get_path_to_cell(from_cell: Vector2i, to_cell: Vector2i) -> Array:
@@ -53,7 +55,7 @@ func map_to_global(cell: Vector2) -> Vector2:
 	return terrain_layer.to_global(local)
 
 
-func _init_terrain_pathfinding():
+func _init_pathfinding_terrain():
 	var terrain_rect = terrain_layer.get_used_rect().size
 	for y in range(terrain_rect.y):
 		for x in range(terrain_rect.x):
@@ -63,6 +65,12 @@ func _init_terrain_pathfinding():
 			for to_cell in get_neighbour_cells(cell):
 				var to_cell_id = cell_to_id(to_cell)
 				astar.connect_points(cell_id, to_cell_id, false)
+
+
+func _update_pathfinding_obstacles():
+	for cell in obstacles_layer.get_used_cells():
+		var cell_id = cell_to_id(cell)
+		astar.remove_point(cell_id)
 
 
 func _add_cell_to_astar(cell: Vector2i) -> bool:
