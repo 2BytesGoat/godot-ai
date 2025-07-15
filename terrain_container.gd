@@ -1,8 +1,8 @@
 class_name TilemapContainer
 extends Node2D
 
+@onready var ground_layer = $GroundLayer
 @onready var terrain_layer = $TerrainLayer
-@onready var obstacles_layer = $ObstaclesLayer
 
 var astar = AStar2D.new()
 
@@ -39,8 +39,8 @@ func get_neighbour_cells(cell: Vector2i) -> Array:
 
 
 func cell_to_id(cell: Vector2i) -> int:
-	var terrain_rect = terrain_layer.get_used_rect().size
-	return cell.y * terrain_rect.x + cell.x
+	var ground_rect = ground_layer.get_used_rect().size
+	return cell.y * ground_rect.x + cell.x
 
 
 func id_to_cell(id: int) -> Vector2i:
@@ -48,19 +48,19 @@ func id_to_cell(id: int) -> Vector2i:
 
 
 func global_to_map(global_point: Vector2) -> Vector2:
-	var local = terrain_layer.to_local(global_point)
-	return terrain_layer.local_to_map(local)
+	var local = ground_layer.to_local(global_point)
+	return ground_layer.local_to_map(local)
 
 
 func map_to_global(cell: Vector2) -> Vector2:
-	var local = terrain_layer.map_to_local(cell)
-	return terrain_layer.to_global(local)
+	var local = ground_layer.map_to_local(cell)
+	return ground_layer.to_global(local)
 
 
 func _init_pathfinding_terrain():
-	var terrain_rect = terrain_layer.get_used_rect().size
-	for y in range(terrain_rect.y):
-		for x in range(terrain_rect.x):
+	var ground_rect = ground_layer.get_used_rect().size
+	for y in range(ground_rect.y):
+		for x in range(ground_rect.x):
 			var cell = Vector2i(x, y)
 			var cell_id = cell_to_id(cell)
 			_add_cell_to_astar(cell)
@@ -70,13 +70,13 @@ func _init_pathfinding_terrain():
 
 
 func _update_pathfinding_obstacles():
-	for cell in obstacles_layer.get_used_cells():
+	for cell in terrain_layer.get_used_cells():
 		var cell_id = cell_to_id(cell)
 		astar.remove_point(cell_id)
 
 
 func _add_cell_to_astar(cell: Vector2i) -> bool:
-	var data = terrain_layer.get_cell_tile_data(cell)
+	var data = ground_layer.get_cell_tile_data(cell)
 	if data == null:
 		return false
 	
