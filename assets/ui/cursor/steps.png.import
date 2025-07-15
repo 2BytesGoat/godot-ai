@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2lax2tgjlk4a"
-path="res://.godot/imported/atlas_walls_low-16x16.png-3bc0839d98c724e6e53b51e88f5d1246.ctex"
+uid="uid://b70uaivkme3e2"
+path="res://.godot/imported/steps.png-39600d39d45b25c79b12ebaba8993dda.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/atlas_walls_low-16x16.png"
-dest_files=["res://.godot/imported/atlas_walls_low-16x16.png-3bc0839d98c724e6e53b51e88f5d1246.ctex"]
+source_file="res://assets/ui/cursor/steps.png"
+dest_files=["res://.godot/imported/steps.png-39600d39d45b25c79b12ebaba8993dda.ctex"]
 
 [params]
 

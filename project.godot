@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 TilemapService="*res://src/autoload/tilemap_service.gd"
 
+[display]
+
+mouse_cursor/custom_image="uid://djgub8ty4f57c"
+
 [input]
 
 mouse_left={

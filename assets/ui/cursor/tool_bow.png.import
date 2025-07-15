@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://diwcwowpsr3yd"
-path="res://.godot/imported/atlas_walls_high-16x32.png-beee0188b5c571526a5e41844611614e.ctex"
+uid="uid://cy3e0uf15kte2"
+path="res://.godot/imported/tool_bow.png-f9dc5208ffa2ec6ea663689ce5338422.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/atlas_walls_high-16x32.png"
-dest_files=["res://.godot/imported/atlas_walls_high-16x32.png-beee0188b5c571526a5e41844611614e.ctex"]
+source_file="res://assets/ui/cursor/tool_bow.png"
+dest_files=["res://.godot/imported/tool_bow.png-f9dc5208ffa2ec6ea663689ce5338422.ctex"]
 
 [params]
 

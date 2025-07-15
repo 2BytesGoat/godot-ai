@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://dbr17gqjplk0n"]
+[gd_scene load_steps=13 format=4 uid="uid://dbr17gqjplk0n"]
 
 [ext_resource type="Script" uid="uid://qxe44vcrsddm" path="res://world.gd" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://c17a72sjkkc8i" path="res://src/unit/unit.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://clsr1in1dp863" path="res://terrain_container.gd" id="2_aqk2v"]
-[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/0x72_DungeonTilesetII_v1.7.png" id="3_036b0"]
-[ext_resource type="Texture2D" uid="uid://b2lax2tgjlk4a" path="res://assets/atlas_walls_low-16x16.png" id="4_dwbse"]
+[ext_resource type="Script" uid="uid://ce3ycn3waa2cp" path="res://cursor_handler.gd" id="2_gbfbk"]
+[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/world/0x72_DungeonTilesetII_v1.7.png" id="3_036b0"]
+[ext_resource type="Texture2D" uid="uid://b2lax2tgjlk4a" path="res://assets/world/atlas_walls_low-16x16.png" id="4_dwbse"]
 [ext_resource type="Script" uid="uid://bt5ri0sxdnsvi" path="res://src/debugger.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://kr1eul7tidw7" path="res://debug_unit_path.gd" id="7_pkg7o"]
 
@@ -708,6 +709,9 @@ sources/0 = SubResource("TileSetAtlasSource_pkg7o")
 y_sort_enabled = true
 script = ExtResource("1_aqk2v")
 
+[node name="CursorHandler" type="Node" parent="."]
+script = ExtResource("2_gbfbk")
+
 [node name="TerrainContainer" type="Node2D" parent="."]
 y_sort_enabled = true
 script = ExtResource("2_aqk2v")
@@ -720,9 +724,9 @@ tile_set = SubResource("TileSet_fj7yv")
 tile_map_data = PackedByteArray("AAAJAAYAAAAAAAMAAAAKAAYAAAAAAAMAAAALAAYAAAAAAAMAAAAMAAYAAAAAAAMAAAANAAYAAAAAAAMAAAAOAAYAAAAAAAMAAAAGAAgAAAAAAAMAAAAGAAkAAAAAAAMAAAAGAAoAAAAAAAMAAAAGAAsAAAAAAAMAAAAEAAIAAAAAAAMAAAAFAAIAAAAAAAMAAAAGAAIAAAAAAAMAAAAHAAIAAAAAAAMAAAAIAAIAAAAAAAMAAAAJAAIAAAAAAAMAAAAUAAkAAAAAAAMAAAAUAAoAAAAAAAMAAAAUAAsAAAAAAAMAAAAUAAwAAAAAAAMAAAAUAA0AAAAAAAMAAAAUAA4AAAAAAAMAAAAUAA8AAAAAAAMAAAATAA8AAAAAAAMAAAASAA8AAAAAAAMAAAARAA8AAAAAAAMAAAAQAA8AAAAAAAMAAAA=")
 tile_set = SubResource("TileSet_gbfbk")
 
-[node name="ObjectsLayer" type="TileMapLayer" parent="TerrainContainer"]
+[node name="ScenesLayer" type="TileMapLayer" parent="TerrainContainer"]
 
-[node name="Player" parent="TerrainContainer/ObjectsLayer" node_paths=PackedStringArray("camera") instance=ExtResource("1_f3sb7")]
+[node name="Player" parent="TerrainContainer/ScenesLayer" node_paths=PackedStringArray("camera") instance=ExtResource("1_f3sb7")]
 position = Vector2(199, 151)
 camera = NodePath("../../../Camera2D")
 
@@ -736,6 +740,7 @@ default_color = Color(1, 1, 1, 0.588235)
 script = ExtResource("7_pkg7o")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(3, 3)
 
-[connection signal="update_debug_path" from="TerrainContainer/ObjectsLayer/Player" to="Debugger" method="_on_player_update_debug_path"]
+[connection signal="is_mouse_hovered" from="TerrainContainer/ScenesLayer/Player" to="CursorHandler" method="_on_player_is_mouse_hovered"]
+[connection signal="update_debug_path" from="TerrainContainer/ScenesLayer/Player" to="Debugger" method="_on_player_update_debug_path"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://c17a72sjkkc8i"]
+[gd_scene load_steps=16 format=3 uid="uid://c17a72sjkkc8i"]
 
 [ext_resource type="Script" uid="uid://dutykws7pje2q" path="res://src/unit/unit.gd" id="1_rkbax"]
-[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/0x72_DungeonTilesetII_v1.7.png" id="2_g1dw6"]
+[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/world/0x72_DungeonTilesetII_v1.7.png" id="2_g1dw6"]
 [ext_resource type="PackedScene" uid="uid://bcoi8gp3l32so" path="res://src/items/weapon.tscn" id="3_wtyfs"]
 [ext_resource type="Script" uid="uid://c4i1eau3vyh77" path="res://src/components/state_machine.gd" id="4_mh547"]
 [ext_resource type="Script" uid="uid://dbuhpejd75ot6" path="res://src/unit/state_move.gd" id="5_ct56y"]
@@ -11,6 +11,8 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_onrkg"]
 atlas = ExtResource("2_g1dw6")
 region = Rect2(128, 288, 144, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qnuv"]
 
 [sub_resource type="Animation" id="Animation_w47c3"]
 resource_name = "Attack"
@@ -171,6 +173,19 @@ position = Vector2(7, -12)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
 
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_6qnuv")
+
+[node name="SelectHighlight" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(-10, -19, 11, -19, 11, 5, -10, 5)
+closed = true
+width = 1.0
+default_color = Color(0, 1, 0, 0.392157)
+
 [node name="ControllerContainer" type="Node" parent="."]
 
 [node name="StateMachine" type="Node" parent="."]
@@ -190,3 +205,6 @@ script = ExtResource("7_fawgm")
 libraries = {
 &"": SubResource("AnimationLibrary_fawgm")
 }
+
+[connection signal="mouse_entered" from="Hurtbox" to="." method="_on_hurtbox_mouse_entered"]
+[connection signal="mouse_exited" from="Hurtbox" to="." method="_on_hurtbox_mouse_exited"]

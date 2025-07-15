@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bcoi8gp3l32so"]
 
 [ext_resource type="Script" uid="uid://bk6ukomn6w8t5" path="res://src/items/weapon.gd" id="1_2xrap"]
-[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/0x72_DungeonTilesetII_v1.7.png" id="2_cgw60"]
+[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/world/0x72_DungeonTilesetII_v1.7.png" id="2_cgw60"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wqrgh"]
 atlas = ExtResource("2_cgw60")

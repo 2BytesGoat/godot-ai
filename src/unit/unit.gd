@@ -10,24 +10,36 @@ class_name Unit
 @onready var controller_container: Node = $ControllerContainer
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var select_highlight: Line2D = $SelectHighlight
+
+var is_hovered: bool = false
+var is_selected: bool = false
 
 var active_controller: ControllerUnit
 var navigation_path: Array
 
 signal update_debug_path(path)
+signal is_mouse_hovered(state)
 
 
 func _ready() -> void:
-	set_controller(ControllerHuman.new(self))
 	remote_transform.remote_path = camera.get_path()
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action("mouse_left"):
+		_set_selected(is_hovered)
+
+
 func set_controller(controller: ControllerUnit) -> void:
-	for child in controller_container.get_children():
-		child.queue_free()
-	
+	clear_controllers()
 	active_controller = controller
 	controller_container.add_child(controller)
+
+
+func clear_controllers() -> void:
+	for child in controller_container.get_children():
+		child.queue_free()
 
 
 func move_to(new_navigation_path: Array) -> void:
@@ -56,3 +68,23 @@ func update_facing_position(new_position):
 func send_state_update():
 	if debug:
 		update_debug_path.emit(navigation_path)
+
+
+func _set_selected(value: bool) -> void:
+	is_selected = value
+	if is_selected:
+		set_controller(ControllerHuman.new(self))
+		select_highlight.visible = true
+	else:
+		clear_controllers()
+		select_highlight.visible = false
+
+
+func _on_hurtbox_mouse_entered() -> void:
+	is_hovered = true
+	is_mouse_hovered.emit(true)
+
+
+func _on_hurtbox_mouse_exited() -> void:
+	is_hovered = false
+	is_mouse_hovered.emit(false)
