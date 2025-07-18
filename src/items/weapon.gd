@@ -1,6 +1,7 @@
 class_name Weapon
 extends Node2D
 
+@onready var collision: CollisionShape2D = $Hurtbox/CollisionShape2D
 @onready var animation_payer: AnimationPlayer = $AnimationPlayer
 
 var is_hovered: bool = false
@@ -18,7 +19,15 @@ func stop_attack():
 	animation_payer.play("RESET")
 
 
+func pickup():
+	collision.disabled = true
+	position = Vector2.ZERO
+
+
 func _on_hurtbox_mouse_entered() -> void:
+	if collision.disabled:
+		return
+	
 	is_hovered = true
 	is_mouse_hovered.emit(true, self)
 

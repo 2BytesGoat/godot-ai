@@ -6,18 +6,19 @@ extends Node2D
 @export var move_speed: int = 150
 
 @onready var sprites_container: Node2D = $SpritesContainer
+@onready var weapon_point: Marker2D = $SpritesContainer/Marker2D
 @onready var remote_transform: RemoteTransform2D = $RemoteTransform2D
 @onready var controller_container: Node = $ControllerContainer
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var select_highlight: Line2D = $SelectHighlight
 
-var carries_item: bool = false
 var is_hovered: bool = false
 var is_selected: bool = false
 
 var active_controller: ControllerUnit
 var navigation_path: Array
+var carried_item: Node2D = null
 
 signal action_done
 signal update_debug_path(path)
@@ -59,7 +60,10 @@ func attack_at(new_position: Vector2) -> void:
 
 
 func pickup_object(object: Node2D) -> void:
-	print(object.name)
+	carried_item = object
+	object.pickup()
+	object.get_parent().remove_child(object)
+	weapon_point.add_child(object)
 
 
 func play_animation(animation_name: String) -> void:

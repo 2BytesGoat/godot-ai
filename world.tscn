@@ -742,7 +742,7 @@ default_color = Color(1, 1, 1, 0.588235)
 script = ExtResource("7_pkg7o")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(3, 3)
 
 [connection signal="is_mouse_hovered" from="TerrainContainer/ScenesLayer/Unit" to="CursorHandler" method="_on_object_is_mouse_hovered"]
 [connection signal="is_mouse_selected" from="TerrainContainer/ScenesLayer/Unit" to="CursorHandler" method="_on_player_is_mouse_selected"]

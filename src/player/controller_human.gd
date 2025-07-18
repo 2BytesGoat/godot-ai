@@ -34,6 +34,9 @@ func _input(event: InputEvent) -> void:
 			commands_buffer.append(CommandWrapper.new(command_pickup, CommandPickup.Params.new(object)))
 
 	if event.is_action_pressed("ui_accept"):
+		if unit.carried_item == null:
+			return
+		
 		commands_buffer = []
 		if unit.is_doing_action():
 			unit.reset()
