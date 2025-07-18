@@ -5,6 +5,7 @@ var next_position := Vector2.INF
 
 
 func enter(_msg := {}) -> void:
+	next_position = Vector2.INF
 	owner.play_animation(self.name)
 
 
@@ -18,7 +19,3 @@ func physics_update(delta: float) -> void:
 		owner.update_facing_position(next_position)
 	# TODO: add smoothing the closer you are to the target
 	owner.global_position = owner.global_position.move_toward(next_position, owner.move_speed * delta)
-
-
-func exit():
-	owner.navigation_path = []

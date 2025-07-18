@@ -1,5 +1,5 @@
-extends Node2D
 class_name Unit
+extends Node2D
 
 @export var camera: Camera2D
 @export var debug: bool = false
@@ -12,14 +12,17 @@ class_name Unit
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var select_highlight: Line2D = $SelectHighlight
 
+var carries_item: bool = false
 var is_hovered: bool = false
 var is_selected: bool = false
 
 var active_controller: ControllerUnit
 var navigation_path: Array
 
+signal action_done
 signal update_debug_path(path)
-signal is_mouse_hovered(state)
+signal is_mouse_hovered(state: bool, object: Node2D)
+signal is_mouse_selected(state: bool)
 
 
 func _ready() -> void:
@@ -55,6 +58,10 @@ func attack_at(new_position: Vector2) -> void:
 	state_machine.transition_to("Attack")
 
 
+func pickup_object(object: Node2D) -> void:
+	print(object.name)
+
+
 func play_animation(animation_name: String) -> void:
 	animation_player.play(animation_name)
 
@@ -70,6 +77,15 @@ func send_state_update():
 		update_debug_path.emit(navigation_path)
 
 
+func is_doing_action():
+	return state_machine.state.name != "Idle"
+
+
+func reset():
+	navigation_path = []
+	state_machine.transition_to("Idle")
+
+
 func _set_selected(value: bool) -> void:
 	is_selected = value
 	if is_selected:
@@ -78,13 +94,14 @@ func _set_selected(value: bool) -> void:
 	else:
 		clear_controllers()
 		select_highlight.visible = false
+	is_mouse_selected.emit(value)
 
 
 func _on_hurtbox_mouse_entered() -> void:
 	is_hovered = true
-	is_mouse_hovered.emit(true)
+	is_mouse_hovered.emit(true, self)
 
 
 func _on_hurtbox_mouse_exited() -> void:
 	is_hovered = false
-	is_mouse_hovered.emit(false)
+	is_mouse_hovered.emit(false, self)
