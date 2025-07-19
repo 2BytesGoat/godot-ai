@@ -84,6 +84,8 @@ texture = SubResource("AtlasTexture_wqrgh")
 
 [node name="Hitbox" type="Area2D" parent="."]
 position = Vector2(0, -14)
+collision_layer = 8
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 1)
@@ -105,5 +107,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_ct56y")
 }
 
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="mouse_entered" from="Hurtbox" to="." method="_on_hurtbox_mouse_entered"]
 [connection signal="mouse_exited" from="Hurtbox" to="." method="_on_hurtbox_mouse_exited"]

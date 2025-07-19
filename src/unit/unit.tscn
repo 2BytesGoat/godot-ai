@@ -1,15 +1,94 @@
-[gd_scene load_steps=15 format=3 uid="uid://c17a72sjkkc8i"]
+[gd_scene load_steps=23 format=3 uid="uid://c17a72sjkkc8i"]
 
 [ext_resource type="Script" uid="uid://dutykws7pje2q" path="res://src/unit/unit.gd" id="1_rkbax"]
 [ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/world/0x72_DungeonTilesetII_v1.7.png" id="2_g1dw6"]
 [ext_resource type="Script" uid="uid://c4i1eau3vyh77" path="res://src/components/state_machine.gd" id="4_mh547"]
 [ext_resource type="Script" uid="uid://dbuhpejd75ot6" path="res://src/unit/state_move.gd" id="5_ct56y"]
 [ext_resource type="Script" uid="uid://mbmw6mre32o2" path="res://src/unit/state_idle.gd" id="5_nh3ln"]
+[ext_resource type="Script" uid="uid://byoc13h45lvv" path="res://src/unit/state_hurt.gd" id="7_6qnuv"]
 [ext_resource type="Script" uid="uid://dwibekwtbw3b" path="res://src/unit/state_attack.gd" id="7_fawgm"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_6qnuv"]
+parameter_name = "Tint"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_yp75e"]
+parameter_name = "Enabled"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_b5l3x"]
+default_input_values = [0, 0.0, 1, 1.0, 2, 1e-05, 3, Vector3(0, 0, 0), 4, Vector3(0, 0, 0), 5, Vector3(0, 0, 0)]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_x0jtx"]
+input_name = "color"
+
+[sub_resource type="VisualShader" id="VisualShader_qdgjp"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform bool Enabled;
+uniform vec4 Tint : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+
+
+
+void fragment() {
+// BooleanParameter:3
+	bool n_out3p0 = Enabled;
+
+
+// ColorParameter:2
+	vec4 n_out2p0 = Tint;
+
+
+// Input:5
+	vec4 n_out5p0 = COLOR;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p1 = 1.00000;
+	float n_in4p2 = 0.00001;
+	if(abs((n_out3p0 ? 1.0 : 0.0) - n_in4p1) < n_in4p2)
+	{
+		n_out4p0 = vec3(n_out2p0.xyz);
+	}
+	else if((n_out3p0 ? 1.0 : 0.0) < n_in4p1)
+	{
+		n_out4p0 = vec3(n_out5p0.xyz);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0.xyz);
+	}
+
+
+// Output:0
+	COLOR.rgb = n_out4p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(920, 140)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_6qnuv")
+nodes/fragment/2/position = Vector2(60, 140)
+nodes/fragment/3/node = SubResource("VisualShaderNodeBooleanParameter_yp75e")
+nodes/fragment/3/position = Vector2(380, 140)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_b5l3x")
+nodes/fragment/4/position = Vector2(700, 180)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_x0jtx")
+nodes/fragment/5/position = Vector2(360, 420)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 2, 0, 4, 3, 4, 0, 0, 0, 5, 0, 4, 4, 5, 0, 4, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ds80o"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_qdgjp")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_onrkg"]
 atlas = ExtResource("2_g1dw6")
-region = Rect2(128, 288, 144, 32)
+region = Rect2(128, 200, 144, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6qnuv"]
 
@@ -45,6 +124,35 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_6qnuv"]
 resource_name = "DefaultAttack"
+
+[sub_resource type="Animation" id="Animation_b5l3x"]
+resource_name = "Hurt"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritesContainer/Sprite2D:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_ct56y"]
 resource_name = "Idle"
@@ -118,11 +226,36 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(6, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritesContainer/Sprite2D:material:shader_parameter/Enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fawgm"]
 _data = {
 &"Attack": SubResource("Animation_w47c3"),
 &"DefaultAttack": SubResource("Animation_6qnuv"),
+&"Hurt": SubResource("Animation_b5l3x"),
 &"Idle": SubResource("Animation_ct56y"),
 &"Move": SubResource("Animation_fawgm"),
 &"RESET": SubResource("Animation_nh3ln")
@@ -135,6 +268,7 @@ debug = true
 [node name="SpritesContainer" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritesContainer"]
+material = SubResource("ShaderMaterial_ds80o")
 position = Vector2(0, -12)
 texture = SubResource("AtlasTexture_onrkg")
 hframes = 9
@@ -172,6 +306,9 @@ script = ExtResource("5_ct56y")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("7_fawgm")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("7_6qnuv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

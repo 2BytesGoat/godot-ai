@@ -7,7 +7,6 @@ extends Node2D
 
 @onready var sprites_container: Node2D = $SpritesContainer
 @onready var weapon_point: Marker2D = $SpritesContainer/Marker2D
-@onready var remote_transform: RemoteTransform2D = $RemoteTransform2D
 @onready var controller_container: Node = $ControllerContainer
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -24,10 +23,6 @@ signal action_done
 signal update_debug_path(path)
 signal is_mouse_hovered(state: bool, object: Node2D)
 signal is_mouse_selected(state: bool)
-
-
-func _ready() -> void:
-	remote_transform.remote_path = camera.get_path()
 
 
 func _input(event: InputEvent) -> void:
@@ -59,6 +54,11 @@ func attack_at(new_position: Vector2) -> void:
 	state_machine.transition_to("Attack")
 
 
+func hurt(damage: float) -> void:
+	print("hurt me with %s" % damage)
+	state_machine.transition_to("Hurt")
+
+
 func pickup_object(object: Node2D) -> void:
 	carried_item = object
 	object.pickup()
@@ -77,7 +77,7 @@ func drop_carried_object() -> void:
 
 
 func play_animation(animation_name: String) -> void:
-	animation_player.play(animation_name)
+	animation_player.call_deferred("play", animation_name)
 
 
 func update_facing_position(new_position):

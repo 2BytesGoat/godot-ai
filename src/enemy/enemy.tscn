@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpqyguv7asbry"]
+
+[ext_resource type="PackedScene" uid="uid://c17a72sjkkc8i" path="res://src/unit/unit.tscn" id="1_6j2al"]
+[ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/world/0x72_DungeonTilesetII_v1.7.png" id="2_ig63i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xso4u"]
+atlas = ExtResource("2_ig63i")
+region = Rect2(368, 376, 128, 16)
+
+[node name="Enemy" instance=ExtResource("1_6j2al")]
+
+[node name="Sprite2D" parent="SpritesContainer" index="0"]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_xso4u")
+hframes = 8
+
+[node name="Hurtbox" parent="." index="2"]
+collision_layer = 4
+collision_mask = 0

@@ -39,3 +39,8 @@ func _on_hurtbox_mouse_entered() -> void:
 func _on_hurtbox_mouse_exited() -> void:
 	is_hovered = false
 	is_mouse_hovered.emit(false, self)
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area.owner is Unit:
+		area.owner.hurt(1.0)
