@@ -64,6 +64,16 @@ func pickup_object(object: Node2D) -> void:
 	object.pickup()
 	object.get_parent().remove_child(object)
 	weapon_point.add_child(object)
+	action_done.emit()
+
+
+func drop_carried_object() -> void:
+	weapon_point.remove_child(carried_item)
+	carried_item.drop()
+	get_parent().add_child(carried_item)
+	carried_item.global_position = global_position
+	carried_item = null
+	action_done.emit()
 
 
 func play_animation(animation_name: String) -> void:

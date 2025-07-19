@@ -31,6 +31,8 @@ func _input(event: InputEvent) -> void:
 		
 		var object = _get_object_under_mouse(mouse_position)
 		if object != null:
+			if unit.carried_item != null:
+				commands_buffer.append(CommandWrapper.new(command_drop, CommandDrop.Params.new()))
 			commands_buffer.append(CommandWrapper.new(command_pickup, CommandPickup.Params.new(object)))
 
 	if event.is_action_pressed("ui_accept"):

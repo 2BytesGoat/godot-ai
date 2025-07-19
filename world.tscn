@@ -733,6 +733,9 @@ camera = NodePath("../../../Camera2D")
 [node name="Weapon" parent="TerrainContainer/ScenesLayer" instance=ExtResource("7_ioo17")]
 position = Vector2(248, 151)
 
+[node name="Weapon2" parent="TerrainContainer/ScenesLayer" instance=ExtResource("7_ioo17")]
+position = Vector2(211, 206)
+
 [node name="Debugger" type="Node2D" parent="."]
 script = ExtResource("6_dwbse")
 
@@ -748,3 +751,4 @@ zoom = Vector2(3, 3)
 [connection signal="is_mouse_selected" from="TerrainContainer/ScenesLayer/Unit" to="CursorHandler" method="_on_player_is_mouse_selected"]
 [connection signal="update_debug_path" from="TerrainContainer/ScenesLayer/Unit" to="Debugger" method="_on_player_update_debug_path"]
 [connection signal="is_mouse_hovered" from="TerrainContainer/ScenesLayer/Weapon" to="CursorHandler" method="_on_object_is_mouse_hovered"]
+[connection signal="is_mouse_hovered" from="TerrainContainer/ScenesLayer/Weapon2" to="CursorHandler" method="_on_object_is_mouse_hovered"]

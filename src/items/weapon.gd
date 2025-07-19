@@ -24,6 +24,10 @@ func pickup():
 	position = Vector2.ZERO
 
 
+func drop():
+	collision.disabled = false
+
+
 func _on_hurtbox_mouse_entered() -> void:
 	if collision.disabled:
 		return
