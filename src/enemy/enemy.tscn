@@ -1,7 +1,85 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpqyguv7asbry"]
+[gd_scene load_steps=10 format=3 uid="uid://bpqyguv7asbry"]
 
 [ext_resource type="PackedScene" uid="uid://c17a72sjkkc8i" path="res://src/unit/unit.tscn" id="1_6j2al"]
 [ext_resource type="Texture2D" uid="uid://f2itc0qaldrc" path="res://assets/world/0x72_DungeonTilesetII_v1.7.png" id="2_ig63i"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_6qnuv"]
+parameter_name = "Tint"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_yp75e"]
+parameter_name = "Enabled"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_b5l3x"]
+default_input_values = [0, 0.0, 1, 1.0, 2, 1e-05, 3, Vector3(0, 0, 0), 4, Vector3(0, 0, 0), 5, Vector3(0, 0, 0)]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_x0jtx"]
+input_name = "color"
+
+[sub_resource type="VisualShader" id="VisualShader_qdgjp"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform bool Enabled;
+uniform vec4 Tint : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+
+
+
+void fragment() {
+// BooleanParameter:3
+	bool n_out3p0 = Enabled;
+
+
+// ColorParameter:2
+	vec4 n_out2p0 = Tint;
+
+
+// Input:5
+	vec4 n_out5p0 = COLOR;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p1 = 1.00000;
+	float n_in4p2 = 0.00001;
+	if(abs((n_out3p0 ? 1.0 : 0.0) - n_in4p1) < n_in4p2)
+	{
+		n_out4p0 = vec3(n_out2p0.xyz);
+	}
+	else if((n_out3p0 ? 1.0 : 0.0) < n_in4p1)
+	{
+		n_out4p0 = vec3(n_out5p0.xyz);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0.xyz);
+	}
+
+
+// Output:0
+	COLOR.rgb = n_out4p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(920, 140)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_6qnuv")
+nodes/fragment/2/position = Vector2(60, 140)
+nodes/fragment/3/node = SubResource("VisualShaderNodeBooleanParameter_yp75e")
+nodes/fragment/3/position = Vector2(380, 140)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_b5l3x")
+nodes/fragment/4/position = Vector2(700, 180)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_x0jtx")
+nodes/fragment/5/position = Vector2(360, 420)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 2, 0, 4, 3, 4, 0, 0, 0, 5, 0, 4, 4, 5, 0, 4, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ig63i"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_qdgjp")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xso4u"]
 atlas = ExtResource("2_ig63i")
@@ -10,6 +88,7 @@ region = Rect2(368, 376, 128, 16)
 [node name="Enemy" instance=ExtResource("1_6j2al")]
 
 [node name="Sprite2D" parent="SpritesContainer" index="0"]
+material = SubResource("ShaderMaterial_ig63i")
 position = Vector2(0, -8)
 texture = SubResource("AtlasTexture_xso4u")
 hframes = 8
